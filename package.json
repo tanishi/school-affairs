@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "koa": "2",
+    "koa-pug": "^3.0.0-2",
+    "koa-router": "next",
+    "pug": "^2.0.0-rc.1"
+  }
+}
