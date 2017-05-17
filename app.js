@@ -12,14 +12,20 @@ const pug = new Pug({
 
 const Router = require("koa-router");
 const router = new Router();
-const user = require("./routes/user.js");
+const users = require("./routes/users.js");
+
+const json = require("koa-json");
+const bodyParser = require("koa-bodyparser");
+const logger = require("koa-logger");
+
 app.use(router.routes());
+app.use(json());
+app.use(bodyParser());
+app.use(logger());
 
 router
-  .get("/", async (ctx, next) => {
-    ctx.render("index", {name: "tanishi"});
-  })
-  .use("/user", user.routes());
+  .use("/users", users.routes())
+  .use("/messages", users.routes());
 
 
 app.listen(3000);
