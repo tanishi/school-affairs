@@ -13,6 +13,7 @@ const pug = new Pug({
 const Router = require("koa-router");
 const router = new Router();
 const users = require("./routes/users.js");
+const records = require("./routes/records.js");
 
 const json = require("koa-json");
 const bodyParser = require("koa-bodyparser");
@@ -24,8 +25,10 @@ app.use(bodyParser());
 app.use(logger());
 
 router
+  .use("/", records.routes())
   .use("/users", users.routes())
   .use("/messages", users.routes());
 
-
-app.listen(3000);
+app.listen(3000, () =>{
+  console.log("starting api server")
+});
