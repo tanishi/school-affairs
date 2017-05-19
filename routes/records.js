@@ -10,7 +10,8 @@ const recordDB = new DataStore({
 });
 
 router
-  .get(":id", async (ctx) => {
+  .get(":id/status", async (ctx) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
     ctx.body = ctx.params.id;
   })
 
