@@ -9540,6 +9540,8 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var CalendarHead = function CalendarHead(props) {};
+
 var Today = function Today() {
   var today = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -9562,9 +9564,7 @@ var Today = function Today() {
   );
 };
 
-var calcCalendar = function calcCalendar() {};
-
-var Calendar = function Calendar() {
+var CalcCalendar = function CalcCalendar() {
   var d = new Date();
   var yy = d.getFullYear();
   var mm = d.getMonth() + 1;
@@ -9589,12 +9589,15 @@ var Calendar = function Calendar() {
     }
 
     var dlen = days.length;
-    if (dlen < 35) {
-      for (var _i2 = 1; _i2 <= 35 - dlen; _i2++) {
+    var _FIVEWEEK = 35;
+    var SIXWEEK = 42;
+
+    if (dlen < _FIVEWEEK) {
+      for (var _i2 = 1; _i2 <= _FIVEWEEK - dlen; _i2++) {
         days.push(_i2);
       }
-    } else if (dlen > 35) {
-      for (var _i3 = 1; _i3 <= 42 - dlen; _i3++) {
+    } else if (dlen > _FIVEWEEK) {
+      for (var _i3 = 1; _i3 <= SIXWEEK - dlen; _i3++) {
         days.push(_i3);
       }
     }
@@ -9602,17 +9605,19 @@ var Calendar = function Calendar() {
     for (var _i4 = 1; _i4 <= endDate; _i4++) {
       days.push(_i4);
     }
-    for (var _i5 = 1; _i5 <= 35 - endDate; _i5++) {
+    for (var _i5 = 1; _i5 <= FIVEWEEK - endDate; _i5++) {
       days.push(_i5);
     }
   }
 
-  var rows = days.length / 7;
+  var WEEK = 7;
+
+  var rows = days.length / WEEK;
 
   var Tbody = [];
   for (var _i6 = 0; _i6 < rows; _i6++) {
     var Rows = [];
-    for (var j = _i6 * 7; j < _i6 * 7 + 7; j++) {
+    for (var j = _i6 * WEEK; j < _i6 * WEEK + WEEK; j++) {
       Rows.push(_react2.default.createElement(
         "td",
         null,
@@ -9627,15 +9632,23 @@ var Calendar = function Calendar() {
   }
 
   return _react2.default.createElement(
+    "tbody",
+    null,
+    Tbody
+  );
+};
+
+var CalendarBody = function CalendarBody() {
+  return _react2.default.createElement(
     "table",
     null,
     _react2.default.createElement(Today, null),
-    _react2.default.createElement(
-      "tbody",
-      null,
-      Tbody
-    )
+    _react2.default.createElement(CalcCalendar, null)
   );
+};
+
+var Calendar = function Calendar() {
+  return _react2.default.createElement(CalendarBody, null);
 };
 
 var headers = new Headers({});

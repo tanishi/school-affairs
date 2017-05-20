@@ -1,9 +1,10 @@
 "use strict";
 
-
 import React from "react";
 import ReactDom from "react-dom";
 
+const CalendarHead = (props) => {
+}
 
 const Today = () => {
   const today = ["日", "月", "火", "水", "木", "金", "土"];
@@ -21,10 +22,7 @@ const Today = () => {
       )
 }
 
-const calcCalendar = () => {
-}
-
-const Calendar = () => {
+const CalcCalendar = () => {
   const d = new Date();
   const yy = d.getFullYear();
   const mm = d.getMonth() + 1;
@@ -48,14 +46,17 @@ const Calendar = () => {
       days.push(i);
     }
 
-    const dlen = days.length
-    if (dlen < 35){
-      for (let i = 1; i <= 35 - dlen; i++){
+    const dlen = days.length;
+    const FIVEWEEK = 35;
+    const SIXWEEK = 42;
+
+    if (dlen < FIVEWEEK){
+      for (let i = 1; i <= FIVEWEEK - dlen; i++){
         days.push(i);
       }
     }
-    else if (dlen > 35){
-      for (let i = 1; i <= 42 - dlen; i++){
+    else if (dlen > FIVEWEEK){
+      for (let i = 1; i <= SIXWEEK - dlen; i++){
         days.push(i);
       }
     }
@@ -64,30 +65,43 @@ const Calendar = () => {
     for (let i = 1; i <= endDate; i++){
       days.push(i);
     }
-    for (let i = 1; i <= 35 - endDate; i++){
+    for (let i = 1; i <= FIVEWEEK - endDate; i++){
       days.push(i);
     }
   }
 
-  const rows = days.length / 7;
+  const WEEK = 7;
+
+  const rows = days.length / WEEK;
 
   let Tbody = [];
   for (let i = 0; i < rows; i++){
     let Rows = [];
-    for (let j = i * 7; j < i * 7 + 7; j++){
+    for (let j = i * WEEK; j < i * WEEK + WEEK; j++){
       Rows.push(<td>{days[j]}</td>);
     }
     Tbody.push(<tr>{Rows}</tr>);
   }
 
+  return (
+      <tbody>
+        {Tbody}
+      </tbody>
+      );
+}
 
+const CalendarBody = () => {
   return (
       <table>
         <Today />
-        <tbody>
-          {Tbody}
-        </tbody>
+        <CalcCalendar />
       </table>
+      );
+}
+
+const Calendar = () => {
+  return (
+      <CalendarBody />
       )
 }
 
