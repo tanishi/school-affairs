@@ -3,6 +3,10 @@
 import React from "react";
 import ReactDom from "react-dom";
 
+const SCHEME = "http";
+const HOST = "localhost";
+const PORT = "3000";
+
 const CalendarHead = () => {
   const d = new Date();
   const mm = d.getMonth() + 1;

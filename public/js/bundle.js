@@ -9520,6 +9520,10 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var SCHEME = "http";
+var HOST = "localhost";
+var PORT = "3000";
+
 var CalendarHead = function CalendarHead() {
   var d = new Date();
   var mm = d.getMonth() + 1;
@@ -9702,22 +9706,23 @@ var SCHEME = "http";
 var HOST = "localhost";
 var PORT = "3000";
 
-function getDetailTask() {
-  return fetch(SCHEME + "://" + HOST + ":" + PORT + "/task/" + taskID).then(function (res) {
-    return res.json();
-  });
-}
-
-function getDeadlines() {
+async function getDeadlines() {
   var userID = "R0V7HfEavaVQGhCx";
   var headers = new Headers({});
   var ops = {
     "mode": "cors"
   };
 
-  return fetch(SCHEME + "://" + HOST + ":" + PORT + "/" + userID + "/status").then(function (res) {
-    return res.json();
-  });
+  var res = await fetch(SCHEME + "://" + HOST + ":" + PORT + "/" + userID + "/status");
+  return await res.json();
+}
+
+async function getDetailTask(taskID) {
+  var url = SCHEME + "://" + HOST + ":" + PORT + "/tasks/" + taskID;
+  var res = await fetch(url);
+  var task = await res.text();
+
+  console.log(task);
 }
 
 (async function initialize() {
@@ -9725,9 +9730,14 @@ function getDeadlines() {
 
   for (var i = 0; i < statuses.length; i++) {
     var deadline = statuses[i].deadline;
-    console.log(deadline);
 
-    document.getElementById(deadline).style.backgroundColor = "green";
+    var dom = document.getElementById(deadline);
+    dom.style.backgroundColor = "green";
+    dom.eventParam = statuses[i]._id;
+
+    dom.addEventListener("click", function (event) {
+      getDetailTask(event.target.eventParam);
+    }, false);
   }
 })();
 

@@ -11,11 +11,11 @@ router
       ctx.body = docs;
     });
   })
-  .get("/:id", async (ctx) => {
-    const taskID = ctx.request.body.taskID;
-    await DB.taskDB.find({"taskID": taskID}, (err, docs) => {
-      ctx.body = docs;
-    });
+  .get("/:taskID", async (ctx) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
+    const taskID = ctx.params.taskID;
+    ctx.body = await DB.taskDB.findOne({"_id": taskID});
+    console.log(ctx.body);
   })
   .post("/", async (ctx) => {
     try {
