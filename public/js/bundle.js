@@ -9615,12 +9615,22 @@ var CalcCalendar = function CalcCalendar() {
   var rows = days.length / WEEK;
 
   var Tbody = [];
+  var m = 0;
+  var month = mm - 1;
   for (var _i6 = 0; _i6 < rows; _i6++) {
     var Rows = [];
     for (var j = _i6 * WEEK; j < _i6 * WEEK + WEEK; j++) {
+      if (m == 0 && days[j] == 1) {
+        month++;
+        m++;
+      } else if (m == 1 && days[j] == 1) {
+        month++;
+      }
+
+      var id = "0" + month + days[j];
       Rows.push(_react2.default.createElement(
         "td",
-        null,
+        { onClick: getDeadlines, id: id },
         days[j]
       ));
     }
@@ -9651,16 +9661,33 @@ var Calendar = function Calendar() {
   return _react2.default.createElement(CalendarBody, null);
 };
 
-var headers = new Headers({});
-var ops = {
-  "mode": "cors"
-};
+function test() {}
+function getDeadlines() {
+  var userID = "R0V7HfEavaVQGhCx";
+  var headers = new Headers({});
+  var ops = {
+    "mode": "cors"
+  };
 
-fetch("http://localhost:3000/0/status", ops).then(function (res) {
-  return res.text();
-}).then(function (json) {
-  console.log(json);
-});
+  return fetch("http://localhost:3000/" + userID + "/status").then(function (res) {
+    return res.json();
+  });
+  //.then((json) => {
+  //  console.log(json[0]);
+  //  return json[0];
+  //});
+}
+
+(async function () {
+  var statuses = await getDeadlines();
+
+  console.log(statuses[0]);
+  for (var i = 0; i < statuses[0].length; i++) {
+    var deadline = statuses[0][i].deadline;
+
+    document.getElementById(deadline).style.backgroundColor = "green";
+  }
+})();
 
 _reactDom2.default.render(_react2.default.createElement(Calendar, null), document.getElementById("container"));
 

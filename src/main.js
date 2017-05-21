@@ -75,10 +75,21 @@ const CalcCalendar = () => {
   const rows = days.length / WEEK;
 
   let Tbody = [];
+  let m = 0;
+  let month = mm - 1;
   for (let i = 0; i < rows; i++){
     let Rows = [];
     for (let j = i * WEEK; j < i * WEEK + WEEK; j++){
-      Rows.push(<td>{days[j]}</td>);
+      if (m == 0 && days[j] == 1){
+        month++;
+        m++;
+      }
+      else if (m == 1 && days[j] == 1){
+        month++;
+      }
+
+      const id = "0" + month + days[j];
+      Rows.push(<td onClick={getDeadlines} id={id}>{days[j]}</td>);
     }
     Tbody.push(<tr>{Rows}</tr>);
   }
@@ -105,18 +116,35 @@ const Calendar = () => {
       )
 }
 
-const headers = new Headers({
-});
-const ops = {
-  "mode": "cors"
-};
-
-fetch("http://localhost:3000/0/status", ops)
-  .then((res) => {
-    return res.text();
-  })
-  .then((json) => {
-    console.log(json)
+function test (){}
+function getDeadlines(){
+  const userID = "R0V7HfEavaVQGhCx";
+  const headers = new Headers({
   });
+  const ops = {
+    "mode": "cors"
+  };
+
+  return fetch("http://localhost:3000/" + userID + "/status")
+    .then((res) => {
+      return res.json();
+    })
+  //.then((json) => {
+  //  console.log(json[0]);
+  //  return json[0];
+  //});
+}
+
+(async () => {
+  const statuses = await getDeadlines();
+
+  console.log(statuses[0]);
+  for (let i = 0; i < statuses[0].length; i++){
+    const deadline = statuses[0][i].deadline;
+
+    document.getElementById(deadline).style.backgroundColor = "green";
+  }
+})();
+
 
 ReactDom.render(<Calendar />, document.getElementById("container"));

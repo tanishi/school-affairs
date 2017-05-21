@@ -3,12 +3,20 @@
 const Router = require("koa-router");
 const router = new Router();
 
+const DB = require("../db/db.js");
+
 router
   .get("/", async (ctx) => {
-    console.log("/user");
   })
   .get("/:id", async (ctx) => {
-    console.log("/user" + ctx.params.id);
+  })
+  .post("/", async (ctx) => {
+    await DB.userDB.insert(ctx.request.body);
+    ctx.status = 201;
+  })
+  .put("/:userID", async (ctx) => {
+  })
+  .delete("/:userID", async (ctx) => {
   })
 
 module.exports = router;
