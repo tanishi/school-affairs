@@ -42,8 +42,11 @@ function getDeadlines(){
 
 const App = () => (
     <div>
-      <button type="button" className="" aria-label="Left Align">
-        <span className="glyphicon-arrow-left"></span>
+      <button id="leftButton" type="button" className="btn btn-default btn-lg">
+        <span className="glyphicon glyphicon-arrow-left"></span>
+      </button>
+      <button id="rightButton" type="button" className="btn btn-default btn-lg">
+        <span className="glyphicon glyphicon-arrow-right"></span>
       </button>
       <Calendar />
     </div>

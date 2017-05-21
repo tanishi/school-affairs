@@ -9737,8 +9737,13 @@ var App = function App() {
     null,
     _react2.default.createElement(
       "button",
-      { type: "button", className: "", "aria-label": "Left Align" },
-      _react2.default.createElement("span", { className: "glyphicon-arrow-left" })
+      { id: "leftButton", type: "button", className: "btn btn-default btn-lg" },
+      _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-left" })
+    ),
+    _react2.default.createElement(
+      "button",
+      { id: "rightButton", type: "button", className: "btn btn-default btn-lg" },
+      _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
     ),
     _react2.default.createElement(_calendar2.default, null)
   );
