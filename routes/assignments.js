@@ -16,12 +16,14 @@ router
 
     for (let assignment of assignments){
       const taskID = assignment.taskID;
-      const deadline = await DB.taskDB.find({"_id": taskID});
+      const deadline = await DB.taskDB.findOne({"_id": taskID});
+      console.log(deadline);
 
       deadlines.push(deadline);
     }
 
     ctx.body = deadlines;
   });
+
 
 module.exports = router;
