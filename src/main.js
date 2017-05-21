@@ -29,9 +29,7 @@ function getDeadlines(){
     })
 }
 
-//↑↓関数名おかしい
-
-(async () => {
+(async function initialize(){
   const statuses = await getDeadlines();
 
   for (let i = 0; i < statuses.length; i++){
@@ -42,7 +40,14 @@ function getDeadlines(){
   }
 })();
 
-const App = () => (<Calendar />);
+const App = () => (
+    <div>
+      <button type="button" className="" aria-label="Left Align">
+        <span className="glyphicon-arrow-left"></span>
+      </button>
+      <Calendar />
+    </div>
+    );
 
 ReactDom.render(<App />, document.getElementById("container"));
 

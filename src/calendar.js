@@ -3,7 +3,11 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-const CalendarHead = (props) => {
+const CalendarHead = () => {
+  const d = new Date();
+  const mm = d.getMonth() + 1;
+
+  return (<div id="month">{mm}</div>);
 }
 
 const Today = () => {
@@ -112,7 +116,10 @@ const CalendarBody = () => {
 
 const Calendar = () => {
   return (
-      <CalendarBody />
+      <div>
+        <CalendarHead />
+        <CalendarBody />
+      </div>
       )
 }
 

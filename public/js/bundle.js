@@ -9520,7 +9520,16 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CalendarHead = function CalendarHead(props) {};
+var CalendarHead = function CalendarHead() {
+  var d = new Date();
+  var mm = d.getMonth() + 1;
+
+  return _react2.default.createElement(
+    "div",
+    { id: "month" },
+    mm
+  );
+};
 
 var Today = function Today() {
   var today = ["日", "月", "火", "水", "木", "金", "土"];
@@ -9638,7 +9647,12 @@ var CalendarBody = function CalendarBody() {
 };
 
 var Calendar = function Calendar() {
-  return _react2.default.createElement(CalendarBody, null);
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(CalendarHead, null),
+    _react2.default.createElement(CalendarBody, null)
+  );
 };
 
 module.exports = Calendar;
@@ -9706,9 +9720,7 @@ function getDeadlines() {
   });
 }
 
-//↑↓関数名おかしい
-
-(async function () {
+(async function initialize() {
   var statuses = await getDeadlines();
 
   for (var i = 0; i < statuses.length; i++) {
@@ -9720,7 +9732,16 @@ function getDeadlines() {
 })();
 
 var App = function App() {
-  return _react2.default.createElement(_calendar2.default, null);
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "button",
+      { type: "button", className: "", "aria-label": "Left Align" },
+      _react2.default.createElement("span", { className: "glyphicon-arrow-left" })
+    ),
+    _react2.default.createElement(_calendar2.default, null)
+  );
 };
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById("container"));
