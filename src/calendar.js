@@ -25,6 +25,8 @@ class Calendar extends React.Component {
     let days = [];
 
     const SATURDAY = 6;
+    const FIVEWEEK = 35;
+    const SIXWEEK = 42;
     if (lastDateEndDay != SATURDAY){
       for (let i = lastDateEndDate - lastDateEndDay; i <= lastDateEndDate; i++){
         days.push(i);
@@ -34,8 +36,6 @@ class Calendar extends React.Component {
       }
 
       const dlen = days.length;
-      const FIVEWEEK = 35;
-      const SIXWEEK = 42;
 
       if (dlen < FIVEWEEK){
         for (let i = 1; i <= FIVEWEEK - dlen; i++){
@@ -88,9 +88,8 @@ class Calendar extends React.Component {
         );
   }
 
-  CalendarHead (){
-    const d = new Date();
-    const mm = d.getMonth() + 1;
+  CalendarHead (props){
+    const mm = props.date.mm + 1;
 
     return (<div id="month">{mm}</div>);
   }
@@ -125,7 +124,7 @@ class Calendar extends React.Component {
   render (){
     return (
         <div>
-          {this.CalendarHead()}
+          {this.CalendarHead(this.props)}
           {this.CalendarBody()}
         </div>
         );

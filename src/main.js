@@ -57,13 +57,36 @@ class App extends React.Component {
     };
   }
 
+  moveMonth(idx){
+    let mm = this.state.mm;
+    if (mm + idx < 0){
+      this.setState({
+        "yy": this.state.yy - 1,
+        "mm": 11
+      });
+    }
+    else if (mm + idx > 11){
+      this.setState({
+        "yy": this.state.yy + 1,
+        "mm": 0
+      });
+    }
+    else {
+      this.setState({
+        "mm": mm + idx
+      });
+    }
+  }
+
   render (){
     return (
       <div>
-        <button id="leftButton" type="button" className="btn btn-default btn-lg">
+        <button id="leftButton" type="button" className="btn btn-default btn-lg"
+          onClick={e => this.moveMonth(-1)}>
           <span className="glyphicon glyphicon-arrow-left"></span>
         </button>
-        <button id="rightButton" type="button" className="btn btn-default btn-lg">
+        <button id="rightButton" type="button" className="btn btn-default btn-lg"
+          onClick={e => this.moveMonth(1)}>
           <span className="glyphicon glyphicon-arrow-right"></span>
         </button>
         <Calendar date={this.state}/>

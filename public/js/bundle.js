@@ -9555,6 +9555,8 @@ var Calendar = function (_React$Component) {
       var days = [];
 
       var SATURDAY = 6;
+      var FIVEWEEK = 35;
+      var SIXWEEK = 42;
       if (lastDateEndDay != SATURDAY) {
         for (var i = lastDateEndDate - lastDateEndDay; i <= lastDateEndDate; i++) {
           days.push(i);
@@ -9564,14 +9566,12 @@ var Calendar = function (_React$Component) {
         }
 
         var dlen = days.length;
-        var _FIVEWEEK = 35;
-        var SIXWEEK = 42;
 
-        if (dlen < _FIVEWEEK) {
-          for (var _i2 = 1; _i2 <= _FIVEWEEK - dlen; _i2++) {
+        if (dlen < FIVEWEEK) {
+          for (var _i2 = 1; _i2 <= FIVEWEEK - dlen; _i2++) {
             days.push(_i2);
           }
-        } else if (dlen > _FIVEWEEK) {
+        } else if (dlen > FIVEWEEK) {
           for (var _i3 = 1; _i3 <= SIXWEEK - dlen; _i3++) {
             days.push(_i3);
           }
@@ -9624,9 +9624,8 @@ var Calendar = function (_React$Component) {
     }
   }, {
     key: "CalendarHead",
-    value: function CalendarHead() {
-      var d = new Date();
-      var mm = d.getMonth() + 1;
+    value: function CalendarHead(props) {
+      var mm = props.date.mm + 1;
 
       return _react2.default.createElement(
         "div",
@@ -9673,7 +9672,7 @@ var Calendar = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         null,
-        this.CalendarHead(),
+        this.CalendarHead(this.props),
         this.CalendarBody()
       );
     }
@@ -9790,19 +9789,47 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
+    key: "moveMonth",
+    value: function moveMonth(idx) {
+      var mm = this.state.mm;
+      if (mm + idx < 0) {
+        this.setState({
+          "yy": this.state.yy - 1,
+          "mm": 11
+        });
+      } else if (mm + idx > 11) {
+        this.setState({
+          "yy": this.state.yy + 1,
+          "mm": 0
+        });
+      } else {
+        this.setState({
+          "mm": mm + idx
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         "div",
         null,
         _react2.default.createElement(
           "button",
-          { id: "leftButton", type: "button", className: "btn btn-default btn-lg" },
+          { id: "leftButton", type: "button", className: "btn btn-default btn-lg",
+            onClick: function onClick(e) {
+              return _this2.moveMonth(-1);
+            } },
           _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-left" })
         ),
         _react2.default.createElement(
           "button",
-          { id: "rightButton", type: "button", className: "btn btn-default btn-lg" },
+          { id: "rightButton", type: "button", className: "btn btn-default btn-lg",
+            onClick: function onClick(e) {
+              return _this2.moveMonth(1);
+            } },
           _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
         ),
         _react2.default.createElement(_calendar2.default, { date: this.state })
