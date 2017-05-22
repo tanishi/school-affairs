@@ -7,16 +7,16 @@ import Calendar from "./calendar.js"
 const SCHEME = "http";
 const HOST = "localhost";
 const PORT = "3000";
+const USERID = "R0V7HfEavaVQGhCx";
 
 async function getDeadlines(){
-  const userID = "R0V7HfEavaVQGhCx";
   const headers = new Headers({
   });
   const ops = {
     "mode": "cors"
   };
 
-  const res = await fetch(SCHEME + "://" + HOST + ":" + PORT + "/" + userID + "/status");
+  const res = await fetch(SCHEME + "://" + HOST + ":" + PORT + "/" + USERID + "/status");
   return await res.json();
 }
 
@@ -44,17 +44,33 @@ async function getDetailTask(taskID){
   }
 })();
 
-const App = () => (
-    <div>
-      <button id="leftButton" type="button" className="btn btn-default btn-lg">
-        <span className="glyphicon glyphicon-arrow-left"></span>
-      </button>
-      <button id="rightButton" type="button" className="btn btn-default btn-lg">
-        <span className="glyphicon glyphicon-arrow-right"></span>
-      </button>
-      <Calendar />
-    </div>
-    );
+class App extends React.Component {
+
+  constructor (){
+    super();
+
+    const d = new Date();
+    this.state = {
+      "d": d,
+      "yy": d.getFullYear(),
+      "mm": d.getMonth()
+    };
+  }
+
+  render (){
+    return (
+      <div>
+        <button id="leftButton" type="button" className="btn btn-default btn-lg">
+          <span className="glyphicon glyphicon-arrow-left"></span>
+        </button>
+        <button id="rightButton" type="button" className="btn btn-default btn-lg">
+          <span className="glyphicon glyphicon-arrow-right"></span>
+        </button>
+        <Calendar date={this.state}/>
+      </div>
+        );
+  }
+}
 
 ReactDom.render(<App />, document.getElementById("container"));
 

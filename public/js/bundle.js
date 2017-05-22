@@ -9510,6 +9510,8 @@ module.exports = getIteratorFn;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(82);
 
 var _react2 = _interopRequireDefault(_react);
@@ -9520,144 +9522,165 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SCHEME = "http";
-var HOST = "localhost";
-var PORT = "3000";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CalendarHead = function CalendarHead() {
-  var d = new Date();
-  var mm = d.getMonth() + 1;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  return _react2.default.createElement(
-    "div",
-    { id: "month" },
-    mm
-  );
-};
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Today = function Today() {
-  var today = ["日", "月", "火", "水", "木", "金", "土"];
+var Calendar = function (_React$Component) {
+  _inherits(Calendar, _React$Component);
 
-  var Thead = today.map(function (e) {
-    return _react2.default.createElement(
-      "th",
-      null,
-      e
-    );
-  });
+  function Calendar(props) {
+    _classCallCheck(this, Calendar);
 
-  return _react2.default.createElement(
-    "thead",
-    null,
-    _react2.default.createElement(
-      "tr",
-      null,
-      Thead
-    )
-  );
-};
-
-var CalcCalendar = function CalcCalendar() {
-  var d = new Date();
-  var yy = d.getFullYear();
-  var mm = d.getMonth() + 1;
-
-  var lastDate = new Date(yy, mm - 1, 0);
-  var date = new Date(yy, mm, 0);
-
-  var lastDateEndDate = lastDate.getDate();
-  var lastDateEndDay = lastDate.getDay();
-
-  var endDate = date.getDate();
-  var endDay = date.getDay();
-
-  var days = [];
-
-  if (lastDateEndDay != 6) {
-    for (var i = lastDateEndDate - lastDateEndDay; i <= lastDateEndDate; i++) {
-      days.push(i);
-    }
-    for (var _i = 1; _i <= endDate; _i++) {
-      days.push(_i);
-    }
-
-    var dlen = days.length;
-    var _FIVEWEEK = 35;
-    var SIXWEEK = 42;
-
-    if (dlen < _FIVEWEEK) {
-      for (var _i2 = 1; _i2 <= _FIVEWEEK - dlen; _i2++) {
-        days.push(_i2);
-      }
-    } else if (dlen > _FIVEWEEK) {
-      for (var _i3 = 1; _i3 <= SIXWEEK - dlen; _i3++) {
-        days.push(_i3);
-      }
-    }
-  } else {
-    for (var _i4 = 1; _i4 <= endDate; _i4++) {
-      days.push(_i4);
-    }
-    for (var _i5 = 1; _i5 <= FIVEWEEK - endDate; _i5++) {
-      days.push(_i5);
-    }
+    return _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this));
   }
 
-  var WEEK = 7;
+  _createClass(Calendar, [{
+    key: "CalcCalendar",
+    value: function CalcCalendar(props) {
+      var d = props.date.d;
+      var yy = props.date.yy;
+      var mm = props.date.mm;
 
-  var rows = days.length / WEEK;
+      var lastDate = new Date(yy, mm, 0);
+      var date = new Date(yy, mm + 1, 0);
 
-  var Tbody = [];
-  var m = 0;
-  var month = mm - 1;
-  for (var _i6 = 0; _i6 < rows; _i6++) {
-    var Rows = [];
-    for (var j = _i6 * WEEK; j < _i6 * WEEK + WEEK; j++) {
-      if (m == 0 && days[j] == 1) {
-        month++;
-        m++;
-      } else if (m == 1 && days[j] == 1) {
-        month++;
+      var lastDateEndDate = lastDate.getDate();
+      var lastDateEndDay = lastDate.getDay();
+      var endDate = date.getDate();
+      var endDay = date.getDay();
+
+      var days = [];
+
+      var SATURDAY = 6;
+      if (lastDateEndDay != SATURDAY) {
+        for (var i = lastDateEndDate - lastDateEndDay; i <= lastDateEndDate; i++) {
+          days.push(i);
+        }
+        for (var _i = 1; _i <= endDate; _i++) {
+          days.push(_i);
+        }
+
+        var dlen = days.length;
+        var _FIVEWEEK = 35;
+        var SIXWEEK = 42;
+
+        if (dlen < _FIVEWEEK) {
+          for (var _i2 = 1; _i2 <= _FIVEWEEK - dlen; _i2++) {
+            days.push(_i2);
+          }
+        } else if (dlen > _FIVEWEEK) {
+          for (var _i3 = 1; _i3 <= SIXWEEK - dlen; _i3++) {
+            days.push(_i3);
+          }
+        }
+      } else {
+        for (var _i4 = 1; _i4 <= endDate; _i4++) {
+          days.push(_i4);
+        }
+        for (var _i5 = 1; _i5 <= FIVEWEEK - endDate; _i5++) {
+          days.push(_i5);
+        }
       }
 
-      var id = "0" + month + days[j];
-      Rows.push(_react2.default.createElement(
-        "td",
-        { id: id },
-        days[j]
-      ));
+      var WEEK = 7;
+
+      var rows = days.length / WEEK;
+
+      var Tbody = [];
+      var m = 0;
+      var month = mm;
+      for (var _i6 = 0; _i6 < rows; _i6++) {
+        var Rows = [];
+        for (var j = _i6 * WEEK; j < _i6 * WEEK + WEEK; j++) {
+          if (m == 0 && days[j] == 1) {
+            month++;
+            m++;
+          } else if (m == 1 && days[j] == 1) {
+            month++;
+          }
+
+          var id = "0" + month + days[j];
+          Rows.push(_react2.default.createElement(
+            "td",
+            { id: id, key: id },
+            days[j]
+          ));
+        }
+        Tbody.push(_react2.default.createElement(
+          "tr",
+          { key: _i6 },
+          Rows
+        ));
+      }
+
+      return _react2.default.createElement(
+        "tbody",
+        null,
+        Tbody
+      );
     }
-    Tbody.push(_react2.default.createElement(
-      "tr",
-      null,
-      Rows
-    ));
-  }
+  }, {
+    key: "CalendarHead",
+    value: function CalendarHead() {
+      var d = new Date();
+      var mm = d.getMonth() + 1;
 
-  return _react2.default.createElement(
-    "tbody",
-    null,
-    Tbody
-  );
-};
+      return _react2.default.createElement(
+        "div",
+        { id: "month" },
+        mm
+      );
+    }
+  }, {
+    key: "Today",
+    value: function Today() {
+      var today = ["日", "月", "火", "水", "木", "金", "土"];
 
-var CalendarBody = function CalendarBody() {
-  return _react2.default.createElement(
-    "table",
-    null,
-    _react2.default.createElement(Today, null),
-    _react2.default.createElement(CalcCalendar, null)
-  );
-};
+      var Thead = today.map(function (t, i) {
+        return _react2.default.createElement(
+          "th",
+          { key: t },
+          t
+        );
+      });
 
-var Calendar = function Calendar() {
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(CalendarHead, null),
-    _react2.default.createElement(CalendarBody, null)
-  );
-};
+      return _react2.default.createElement(
+        "thead",
+        null,
+        _react2.default.createElement(
+          "tr",
+          null,
+          Thead
+        )
+      );
+    }
+  }, {
+    key: "CalendarBody",
+    value: function CalendarBody() {
+      return _react2.default.createElement(
+        "table",
+        null,
+        this.Today(),
+        this.CalcCalendar(this.props)
+      );
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        null,
+        this.CalendarHead(),
+        this.CalendarBody()
+      );
+    }
+  }]);
+
+  return Calendar;
+}(_react2.default.Component);
 
 module.exports = Calendar;
 
@@ -9688,6 +9711,8 @@ module.exports = __webpack_require__(19);
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(82);
 
 var _react2 = _interopRequireDefault(_react);
@@ -9702,18 +9727,24 @@ var _calendar2 = _interopRequireDefault(_calendar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var SCHEME = "http";
 var HOST = "localhost";
 var PORT = "3000";
+var USERID = "R0V7HfEavaVQGhCx";
 
 async function getDeadlines() {
-  var userID = "R0V7HfEavaVQGhCx";
   var headers = new Headers({});
   var ops = {
     "mode": "cors"
   };
 
-  var res = await fetch(SCHEME + "://" + HOST + ":" + PORT + "/" + userID + "/status");
+  var res = await fetch(SCHEME + "://" + HOST + ":" + PORT + "/" + USERID + "/status");
   return await res.json();
 }
 
@@ -9741,23 +9772,46 @@ async function getDetailTask(taskID) {
   }
 })();
 
-var App = function App() {
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "button",
-      { id: "leftButton", type: "button", className: "btn btn-default btn-lg" },
-      _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-left" })
-    ),
-    _react2.default.createElement(
-      "button",
-      { id: "rightButton", type: "button", className: "btn btn-default btn-lg" },
-      _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
-    ),
-    _react2.default.createElement(_calendar2.default, null)
-  );
-};
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App() {
+    _classCallCheck(this, App);
+
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+
+    var d = new Date();
+    _this.state = {
+      "d": d,
+      "yy": d.getFullYear(),
+      "mm": d.getMonth()
+    };
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "button",
+          { id: "leftButton", type: "button", className: "btn btn-default btn-lg" },
+          _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-left" })
+        ),
+        _react2.default.createElement(
+          "button",
+          { id: "rightButton", type: "button", className: "btn btn-default btn-lg" },
+          _react2.default.createElement("span", { className: "glyphicon glyphicon-arrow-right" })
+        ),
+        _react2.default.createElement(_calendar2.default, { date: this.state })
+      );
+    }
+  }]);
+
+  return App;
+}(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById("container"));
 
