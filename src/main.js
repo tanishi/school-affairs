@@ -28,22 +28,6 @@ async function getDetailTask(taskID){
   console.log(task);
 }
 
-(async function initialize(){
-  const statuses = await getDeadlines();
-
-  for (let i = 0; i < statuses.length; i++){
-    const deadline = statuses[i].deadline;
-
-    const dom = document.getElementById(deadline);
-    dom.style.backgroundColor = "green";
-    dom.eventParam = statuses[i]._id
-
-    dom.addEventListener("click", function(event){
-      getDetailTask(event.target.eventParam)
-    }, false);
-  }
-})();
-
 class App extends React.Component {
 
   constructor (){
@@ -55,7 +39,25 @@ class App extends React.Component {
       "yy": d.getFullYear(),
       "mm": d.getMonth()
     };
+    this.initialize();
   }
+
+  async initialize(){
+    const statuses = await getDeadlines();
+
+    for (let i = 0; i < statuses.length; i++){
+      const deadline = statuses[i].deadline;
+
+      const dom = document.getElementById(deadline);
+      dom.style.backgroundColor = "green";
+      dom.eventParam = statuses[i]._id
+
+      dom.addEventListener("click", function(event){
+        getDetailTask(event.target.eventParam)
+      }, false);
+    }
+  };
+
 
   moveMonth(idx){
     let mm = this.state.mm;
@@ -76,6 +78,7 @@ class App extends React.Component {
         "mm": mm + idx
       });
     }
+    this.initialize();
   }
 
   render (){

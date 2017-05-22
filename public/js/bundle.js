@@ -9755,22 +9755,6 @@ async function getDetailTask(taskID) {
   console.log(task);
 }
 
-(async function initialize() {
-  var statuses = await getDeadlines();
-
-  for (var i = 0; i < statuses.length; i++) {
-    var deadline = statuses[i].deadline;
-
-    var dom = document.getElementById(deadline);
-    dom.style.backgroundColor = "green";
-    dom.eventParam = statuses[i]._id;
-
-    dom.addEventListener("click", function (event) {
-      getDetailTask(event.target.eventParam);
-    }, false);
-  }
-})();
-
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -9785,10 +9769,28 @@ var App = function (_React$Component) {
       "yy": d.getFullYear(),
       "mm": d.getMonth()
     };
+    _this.initialize();
     return _this;
   }
 
   _createClass(App, [{
+    key: "initialize",
+    value: async function initialize() {
+      var statuses = await getDeadlines();
+
+      for (var i = 0; i < statuses.length; i++) {
+        var deadline = statuses[i].deadline;
+
+        var dom = document.getElementById(deadline);
+        dom.style.backgroundColor = "green";
+        dom.eventParam = statuses[i]._id;
+
+        dom.addEventListener("click", function (event) {
+          getDetailTask(event.target.eventParam);
+        }, false);
+      }
+    }
+  }, {
     key: "moveMonth",
     value: function moveMonth(idx) {
       var mm = this.state.mm;
@@ -9807,6 +9809,7 @@ var App = function (_React$Component) {
           "mm": mm + idx
         });
       }
+      this.initialize();
     }
   }, {
     key: "render",
