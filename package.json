@@ -6,7 +6,8 @@
     "koa-logger": "^3.0.0",
     "koa-router": "next",
     "koa-static": "^3.0.0",
-    "nedb-promise": "^2.0.1"
+    "nedb-promise": "^2.0.1",
+    "react-bootstrap": "^0.31.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

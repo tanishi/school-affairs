@@ -2,6 +2,7 @@
 
 import React from "react";
 import ReactDom from "react-dom";
+import { Modal, Button } from "react-bootstrap";
 import Calendar from "./calendar.js"
 
 const SCHEME = "http";
@@ -28,6 +29,51 @@ async function getDetailTask(taskID){
   console.log(task);
 }
 
+class DetailTask extends React.Component {
+  constructor (props){
+    super();
+
+    this.state = {
+      showModal: false
+    };
+
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+  }
+
+  close (){
+    this.setState({
+      showModal: false
+    });
+  }
+
+  open (){
+    this.setState({
+      showModal: true
+    });
+  }
+
+  render (){
+    return (
+      <div>
+        <Button onClick={this.open}>Add</Button>
+
+        <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Member</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>{this.props.contents}</div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.close}>戻る</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+}
+
 class App extends React.Component {
 
   constructor (){
@@ -50,7 +96,7 @@ class App extends React.Component {
 
       const dom = document.getElementById(deadline);
       if (dom){
-        dom.style.backgroundColor = "green";
+        dom.style.backgroundColor = "orange";
         dom.eventParam = statuses[i]._id
 
         dom.addEventListener("click", function(event){
