@@ -9625,11 +9625,17 @@ var Calendar = function (_React$Component) {
   }, {
     key: "CalendarHead",
     value: function CalendarHead(props) {
+      var yy = props.date.yy;
       var mm = props.date.mm + 1;
 
       return _react2.default.createElement(
         "div",
         { id: "month" },
+        _react2.default.createElement(
+          "span",
+          null,
+          yy + " "
+        ),
         mm
       );
     }
@@ -9782,12 +9788,14 @@ var App = function (_React$Component) {
         var deadline = statuses[i].deadline;
 
         var dom = document.getElementById(deadline);
-        dom.style.backgroundColor = "green";
-        dom.eventParam = statuses[i]._id;
+        if (dom) {
+          dom.style.backgroundColor = "green";
+          dom.eventParam = statuses[i]._id;
 
-        dom.addEventListener("click", function (event) {
-          getDetailTask(event.target.eventParam);
-        }, false);
+          dom.addEventListener("click", function (event) {
+            getDetailTask(event.target.eventParam);
+          }, false);
+        }
       }
     }
   }, {

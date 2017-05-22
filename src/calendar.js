@@ -89,9 +89,15 @@ class Calendar extends React.Component {
   }
 
   CalendarHead (props){
+    const yy = props.date.yy;
     const mm = props.date.mm + 1;
 
-    return (<div id="month">{mm}</div>);
+    return (
+        <div id="month">
+          <span>{yy + " "}</span>
+          {mm}
+        </div>
+        );
   }
 
 

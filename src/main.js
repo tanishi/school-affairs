@@ -49,12 +49,14 @@ class App extends React.Component {
       const deadline = statuses[i].deadline;
 
       const dom = document.getElementById(deadline);
-      dom.style.backgroundColor = "green";
-      dom.eventParam = statuses[i]._id
+      if (dom){
+        dom.style.backgroundColor = "green";
+        dom.eventParam = statuses[i]._id
 
-      dom.addEventListener("click", function(event){
-        getDetailTask(event.target.eventParam)
-      }, false);
+        dom.addEventListener("click", function(event){
+          getDetailTask(event.target.eventParam)
+        }, false);
+      }
     }
   };
 
