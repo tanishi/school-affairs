@@ -23,7 +23,7 @@ const options = {
   origin: "*"
 };
 
-app.use(cors(options));
+//app.use(cors(options));
 
 router
   .use("/", assignments.routes())
