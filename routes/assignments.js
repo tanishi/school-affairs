@@ -37,7 +37,7 @@ router
     ctx.set("Access-Control-Allow-Origin", "*");
 
     ctx.status = 405;
-  });
+  })
   .delete(":userID/status", async (ctx) => {
     ctx.set("Access-Control-Allow-Origin", "*");
 

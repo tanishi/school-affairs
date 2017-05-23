@@ -2,6 +2,7 @@
 
 import React from "react";
 import ReactDom from "react-dom";
+import DetailTask from "./DetailTask.js";
 
 
 class Calendar extends React.Component {
@@ -10,7 +11,6 @@ class Calendar extends React.Component {
   }
 
   CalcCalendar (props){
-    const d = props.date.d;
     const yy = props.date.yy;
     const mm = props.date.mm;
 
@@ -76,7 +76,7 @@ class Calendar extends React.Component {
         }
 
         const id = "0" + month + days[j];
-        Rows.push(<td id={id} key={id}>{days[j]}</td>);
+        Rows.push(<td id={id} key={id}><DetailTask day={days[j]} /></td>);
       }
       Tbody.push(<tr key={i}>{Rows}</tr>);
     }
@@ -117,21 +117,15 @@ class Calendar extends React.Component {
         );
   }
 
-  CalendarBody (){
-    return (
-        <table>
-          {this.Today()}
-          {this.CalcCalendar(this.props)}
-        </table>
-        );
-  }
-
 
   render (){
     return (
         <div>
           {this.CalendarHead(this.props)}
-          {this.CalendarBody()}
+          <table>
+            {this.Today()}
+            {this.CalcCalendar(this.props)}
+          </table>
         </div>
         );
   }

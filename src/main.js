@@ -3,7 +3,8 @@
 import React from "react";
 import ReactDom from "react-dom";
 import { Modal, Button } from "react-bootstrap";
-import Calendar from "./calendar.js"
+import Calendar from "./calendar.js";
+import { moveMonth } from "./state-functions.js";
 
 const SCHEME = "http";
 const HOST = "localhost";
@@ -36,14 +37,12 @@ class App extends React.Component {
 
     const d = new Date();
     this.state = {
-      "d": d,
       "yy": d.getFullYear(),
       "mm": d.getMonth()
     };
     this.initialize();
   }
-
-  async initialize(){
+async initialize(){
     const statuses = await getDeadlines();
 
     for (let i = 0; i < statuses.length; i++){
@@ -62,25 +61,9 @@ class App extends React.Component {
   };
 
 
-  moveMonth(idx){
-    let mm = this.state.mm;
-    if (mm + idx < 0){
-      this.setState({
-        "yy": this.state.yy - 1,
-        "mm": 11
-      });
-    }
-    else if (mm + idx > 11){
-      this.setState({
-        "yy": this.state.yy + 1,
-        "mm": 0
-      });
-    }
-    else {
-      this.setState({
-        "mm": mm + idx
-      });
-    }
+  onMoveMonth(idx){
+    this.setState(moveMonth(this.state, idx));
+
     this.initialize();
   }
 
@@ -88,11 +71,11 @@ class App extends React.Component {
     return (
       <div>
         <button id="leftButton" type="button" className="btn btn-default btn-lg"
-          onClick={e => this.moveMonth(-1)}>
+          onClick={e => this.onMoveMonth(-1)}>
           <span className="glyphicon glyphicon-arrow-left"></span>
         </button>
         <button id="rightButton" type="button" className="btn btn-default btn-lg"
-          onClick={e => this.moveMonth(1)}>
+          onClick={e => this.onMoveMonth(1)}>
           <span className="glyphicon glyphicon-arrow-right"></span>
         </button>
         <Calendar date={this.state}/>
