@@ -29,51 +29,6 @@ async function getDetailTask(taskID){
   console.log(task);
 }
 
-class DetailTask extends React.Component {
-  constructor (props){
-    super();
-
-    this.state = {
-      showModal: false
-    };
-
-    this.close = this.close.bind(this);
-    this.open = this.open.bind(this);
-  }
-
-  close (){
-    this.setState({
-      showModal: false
-    });
-  }
-
-  open (){
-    this.setState({
-      showModal: true
-    });
-  }
-
-  render (){
-    return (
-      <div>
-        <Button onClick={this.open}>Add</Button>
-
-        <Modal show={this.state.showModal} onHide={this.close}>
-          <Modal.Header closeButton>
-            <Modal.Title>Add Member</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div>{this.props.contents}</div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.close}>戻る</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    );
-  }
-}
-
 class App extends React.Component {
 
   constructor (){
