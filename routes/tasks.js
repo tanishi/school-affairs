@@ -7,17 +7,34 @@ const DB = require("../db/db.js");
 
 router
   .get("/", async (ctx) => {
-    await DB.taskDB.find({}, (err, docs) => {
-      ctx.body = docs;
-    });
+    ctx.set("Access-Control-Allow-Origin", "*");
+
+    try {
+      const tasks = await DB.taskDB.find({});
+
+      ctx.body = tasks;
+      ctx.status = 200;
+    } catch(e){
+      console.log(e);
+    }
   })
   .get("/:taskID", async (ctx) => {
     ctx.set("Access-Control-Allow-Origin", "*");
+
     const taskID = ctx.params.taskID;
-    ctx.body = await DB.taskDB.findOne({"_id": taskID});
-    console.log(ctx.body);
+
+    try {
+      const task = await DB.taskDB.findOne({"_id": taskID});
+
+      ctx.body = task;
+      ctx.status = 200;
+    } catch(e){
+      console.log(e);
+    }
   })
   .post("/", async (ctx) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
+
     try {
       const task = await DB.taskDB.insert(ctx.request.body);
       const users = await DB.userDB.find({});
@@ -31,26 +48,56 @@ router
       }
 
       ctx.status = 201;
-    } catch (e){
+    } catch(e){
       console.log(e);
     }
   })
   .post("/:userID", async (ctx) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
+
     const userID = ctx.params.userID;
 
-    await DB.taskDB.insert(ctx.request.body, (err, newDoc) => {
-      taskID = newDoc._id;
-    });
+    try {
+      const task = await DB.taskDB.insert(ctx.request.body);
 
-    const query = {
-      "userID": userID,
-      "taskID": ctx.request.body.taskID
-    };
-    await DB.assignDB.insert(query);
+      const query = {
+        "userID": userID,
+        "taskID": task._id
+      };
+      await DB.assignDB.insert(query);
+
+      ctx.body = task;
+      ctx.status = 201;
+    } catch(e){
+      console.log(e);
+    }
   })
-  .put("/:id", async (ctx) => {
+  .put("/:taskID", async (ctx) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
+
+    const taskID = ctx.params.taskID;
+
+    try {
+      const task = DB.taskDB.update({"_id": taskID}, {$set: ctx.request.body});
+
+      ctx.body = task;
+      ctx.status = 200;
+    } catch(e){
+      console.log(e);
+    }
   })
-  .delete("/:id", async (ctx) => {
+  .delete("/:taskID", async (ctx) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
+
+    const taskID = ctx.params.taskID;
+
+    try {
+      const task = DB.userDB.remove({"_id": taskID});
+
+      ctx.status = 204;
+    } catch(e){
+      console.log(e);
+    }
   });
 
 module.exports = router;

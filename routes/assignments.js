@@ -6,23 +6,27 @@ const router = new Router();
 const DB = require("../db/db.js");
 
 router
-  .get(":id/status", async (ctx) => {
+  .get(":userID/status", async (ctx) => {
     ctx.set("Access-Control-Allow-Origin", "*");
-    const id = ctx.params.id;
-    let deadlines = [];
 
-    console.log(id);
-    const assignments = await DB.assignDB.find({"userID": id});
+    try {
+      const userID = ctx.params.userID;
 
-    for (let assignment of assignments){
-      const taskID = assignment.taskID;
-      const deadline = await DB.taskDB.findOne({"_id": taskID});
-      console.log(deadline);
+      const assignments = await DB.assignDB.find({"userID": userID});
 
-      deadlines.push(deadline);
+      let deadlines = [];
+      for (let assignment of assignments){
+        const taskID = assignment.taskID;
+        const deadline = await DB.taskDB.findOne({"_id": taskID});
+
+        deadlines.push(deadline);
+      }
+
+      ctx.body = deadlines;
+      ctx.status = 200;
+    } catch(e){
+      console.log(e);
     }
-
-    ctx.body = deadlines;
   });
 
 
